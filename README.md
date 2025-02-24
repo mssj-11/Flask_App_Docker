@@ -15,4 +15,17 @@ Este script contiene un menu de opciones para iniciar y correr los proyectos de 
 ```sh
 bash menu.sh
 ```
-# Flask_App_Docker
+
+
+# Ejecutar los TEST
+
+## Agregar dependencias y ajustes al proyecto
+Puedes ingresar al paso a paso de la instalacion de dependencias y ajustes del proyecto en el archivo **[Tests Selenium](./tests.md)**
+
+## Ejecutar el script
+El siguiente script contiene un menu de opciones para iniciar los TEST del proyecto Angular en un contenedor.
+
+*   **Ejecutar:**
+```sh
+bash tests.sh
+```

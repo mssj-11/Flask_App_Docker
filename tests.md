@@ -39,7 +39,7 @@ cd test
 nano persona.spec.js
 ```
 
-*   Código:
+*   **Código:**
 ```js
 const { expect } = require('chai');
 const { getDriver } = require('./testConfig');
@@ -105,7 +105,7 @@ describe('Test de la página de CRUD Personas', function () {
 nano testConfig.js
 ```
 
-*   Código:
+*   **Código:**
 ```js
 const { Builder } = require("selenium-webdriver");
 
@@ -129,7 +129,7 @@ Crear el archivo **`personaPage.js`**:
 nano personaPage.js
 ```
 
-*   Código:
+*   **Código:**
 ```js
 const { By, until } = require("selenium-webdriver");
 
