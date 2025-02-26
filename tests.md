@@ -9,6 +9,45 @@ docker start -ai ucontainer-angular
 docker exec -it ucontainer-angular bash
 ```
 
+
+## Actualizar Node a la version 18
+```sh
+apt update && apt install -y curl
+curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+apt install -y nodejs
+```
+
+## Instalar Firefox
+```sh
+apt update && apt install -y --allow-downgrades firefox
+firefox --version
+```
+
+*   **Solución a posibles errores de instalación de Firefox**:
+En caso de que no se instale Firefox
+1. Quitar cualquier rastro de Snap:
+```sh
+apt purge -y firefox snapd
+rm -rf /var/cache/snapd/
+```
+
+2. Configurar APT para evitar Snap:
+```sh
+mkdir -p /etc/apt/preferences.d
+
+echo 'Package: firefox*  
+Pin: release o=LP-PPA-mozillateam  
+Pin-Priority: 1001' | tee /etc/apt/preferences.d/mozilla-firefox
+
+echo 'Package: snapd  
+Pin: release *  
+Pin-Priority: -1' | tee /etc/apt/preferences.d/no-snapd
+```
+
+Después de esto volver a instalar Firefox
+
+
+
 ## Ingresar al proyecto de Angular
 ```sh
 cd crud-personas
@@ -21,6 +60,11 @@ npm i mocha --save-dev
 npm i selenium-webdriver mocha webdriver-manager
 ```
 
+> [!NOTE] 
+> * En caso de un posible error con mensaje de chai, instalar:
+```
+npm install chai@4.3.6
+```
 
 ### Ajustes en el archivo **`package.json`**:
 ```js
@@ -39,7 +83,7 @@ cd test
 nano persona.spec.js
 ```
 
-*   **Código:**
+*   Código:
 ```js
 const { expect } = require('chai');
 const { getDriver } = require('./testConfig');
@@ -105,12 +149,23 @@ describe('Test de la página de CRUD Personas', function () {
 nano testConfig.js
 ```
 
-*   **Código:**
+*   Código para el modo **headless** (sin interfaz gráfica):
 ```js
 const { Builder } = require("selenium-webdriver");
+const firefox = require("selenium-webdriver/firefox");
 
 async function getDriver() {
-    let driver = await new Builder().forBrowser("chrome").build();
+    let options = new firefox.Options();
+    options.addArguments("--headless");  // Ejecutar sin interfaz gráfica
+    options.addArguments("--disable-gpu"); // Evita problemas en algunos entornos
+    options.addArguments("--no-sandbox"); // Requerido en Docker
+    options.addArguments("--disable-dev-shm-usage"); // Evita problemas de memoria compartida
+
+    let driver = await new Builder()
+        .forBrowser("firefox")
+        .setFirefoxOptions(options)
+        .build();
+
     return driver;
 }
 
@@ -129,7 +184,7 @@ Crear el archivo **`personaPage.js`**:
 nano personaPage.js
 ```
 
-*   **Código:**
+*   Código:
 ```js
 const { By, until } = require("selenium-webdriver");
 
@@ -198,6 +253,25 @@ module.exports = PersonaPage;
 ```
 
 
+# Iniciar los scripts:
+
+Para poder ejecutar los TEST, debes de utilizar 2 ventanas de terminal.
+1. **Terminal 1:** Para iniciar el proyecto angular:
+Ejecuta **`menu.sh`** y elige la opción 3, para iniciar el proyecto Angular en Docker.
+```sh
+bash menu.sh
+```
+
+2. **Terminal 2:** Para iniciar los TEST con Selenium:
+Ejecuta **`tests.sh`** y elige la opción 1
+```sh
+bash tests.sh
+```
+
+Los test se ejecutaran y después podrás seleccionar la opción **2) Detener Contenedor Angular**.
 
 ## Resultado
 <p align="center"><img src="test1.png" /></p>
+
+## Resultado en el contenedor Docker
+<p align="center"><img src="test_doc.png" /></p>

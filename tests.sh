@@ -7,7 +7,7 @@ function stop_angular() {
 
 function run_tests() {
     echo "Ejecutando tests con Selenium y Mocha..."
-    docker start ucontainer-angular
+    # docker start ucontainer-angular
     docker exec -it ucontainer-angular bash -c "
         cd crud-personas && 
         npm run test"
