@@ -275,3 +275,62 @@ Los test se ejecutaran y después podrás seleccionar la opción **2) Detener Co
 
 ## Resultado en el contenedor Docker
 <p align="center"><img src="test_doc.png" /></p>
+
+
+
+
+#   Agregar CUCUMBER:
+
+1. **Instalar dependencias de Cucumber:**
+```sh
+npm i @cucumber/cucumber --save-dev
+#npm i chai --save-dev // no es necesario
+```
+Esto instala Cucumber y Chai (para aserciones).
+
+
+2. **Ajustar package.json para ejecutar Cucumber**
+
+Modifica el package.json agregando un nuevo script para ejecutar las pruebas de Cucumber:
+
+```js
+"scripts": {
+  "test": "mocha ./test/*.spec.js --no-timeouts",
+  "test:cucumber": "cucumber-js"
+}
+```
+
+
+3. **Crear el archivo de características (Gherkin)**
+
+Crea una carpeta `features` en la raíz del proyecto y dentro, un archivo llamado `persona.feature`:
+```sh
+mkdir features
+cd features
+```
+
+Crear el archivo:
+```sh
+nano persona.feature
+```
+**Código 📂: [features/persona.feature](https://github.com/mssj-11/crud-personas/blob/main/features/persona.feature)**
+
+
+4. **Crear los archivos de soporte (`stepDefinitions`)**
+
+Ahora, crea una carpeta `stepDefinitions` dentro de `features` y dentro, un archivo llamado `persona.steps.js`.
+```sh
+mkdir stepDefinitions
+cd stepDefinitions
+```
+
+Crear el archivo:
+```sh
+nano persona.steps.js
+```
+**Código 📂: [features/stepDefinitions/persona.steps.js](https://github.com/mssj-11/crud-personas/blob/main/features/stepDefinitions/persona.steps.js)**
+
+#### Ahora podrás ejecutar las pruebas de Cucumber con:
+```sh
+npm run test:cucumber
+```
