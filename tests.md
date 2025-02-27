@@ -334,3 +334,5 @@ nano persona.steps.js
 ```sh
 npm run test:cucumber
 ```
+## Resultado en el contenedor Docker
+<p align="center"><img src="test_cucumber.png" /></p>
